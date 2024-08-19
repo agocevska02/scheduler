@@ -2,21 +2,18 @@ package mk.iwec.schedulerapplication.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import mk.iwec.schedulerapplication.infrastructure.pojo.BaseEntity;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "user_role")
-public class UserRole {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserRole extends BaseEntity {
+
     private String role;
 
     @ManyToMany(mappedBy = "roles")

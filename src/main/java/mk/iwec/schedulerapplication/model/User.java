@@ -2,24 +2,20 @@ package mk.iwec.schedulerapplication.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import mk.iwec.schedulerapplication.infrastructure.pojo.BaseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "user_app")
+@Table(name = "user")
+public class User extends BaseEntity {
 
-
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String username;
     private String password;
     private LocalDate date_created;
@@ -32,23 +28,16 @@ public class User {
         this.isActive = isActive;
     }
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Contact contact;
 
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "user_roles",
+            name = "r_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<UserRole> roles;
-
-    @ManyToMany(mappedBy = "students")
-    private List<Course> coursesAsStudent;
-
-    @ManyToMany(mappedBy = "instructors")
-    private List<Course> coursesAsInstructor;
-
+    private Set<UserRole> roles;
 
 }

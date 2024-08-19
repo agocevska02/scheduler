@@ -3,28 +3,40 @@ package mk.iwec.schedulerapplication.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import mk.iwec.schedulerapplication.infrastructure.pojo.BaseEntity;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+public class Course extends BaseEntity {
+
     private String name;
     private String description;
-    private String duration;
+    @Column(name = "start_date")
+    private LocalDate startDate;
+    @Column(name = "final_date_to_apply")
+    private LocalDate finalDateToApply;
+    @Column(name = "duration_in_months")
+    private Integer durationInMonths;
+    private Integer price;
+    private String location;
+    @Column(name = "meetings_per_week")
+    private Integer meetingsPerWeek;
+    @Column(name = "hours_per_meeting")
+    private Integer hoursPerMeeting;
+    @Column(name = "course_level")
+    private String courseLevel;
 
     @ManyToMany
     @JoinTable(
-            name = "course_student",
+            name = "r_course_student",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
@@ -32,7 +44,7 @@ public class Course {
 
     @ManyToMany
     @JoinTable(
-            name = "course_instructor",
+            name = "r_course_instructor",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
@@ -41,18 +53,16 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Meeting> meetings;
 
-    public Course(String name, String description, String duration, List<User> students, List<User> instructors, List<Meeting> meetings) {
+    public Course(String name, String description, LocalDate startDate, LocalDate finalDateToApply, Integer durationInMonths, Integer price, String location, Integer meetingsPerWeek, Integer hoursPerMeeting, String courseLevel) {
         this.name = name;
         this.description = description;
-        this.duration = duration;
-        this.students = students;
-        this.instructors = instructors;
-        this.meetings = meetings;
-    }
-
-    public Course(String name, String description, String duration) {
-        this.name = name;
-        this.description = description;
-        this.duration = duration;
+        this.startDate = startDate;
+        this.finalDateToApply = finalDateToApply;
+        this.durationInMonths = durationInMonths;
+        this.price = price;
+        this.location = location;
+        this.meetingsPerWeek = meetingsPerWeek;
+        this.hoursPerMeeting = hoursPerMeeting;
+        this.courseLevel = courseLevel;
     }
 }

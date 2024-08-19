@@ -1,34 +1,33 @@
 package mk.iwec.schedulerapplication.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import mk.iwec.schedulerapplication.infrastructure.pojo.BaseEntity;
 
+import java.awt.*;
+
+@EqualsAndHashCode(callSuper = true) //da prasama za ova
 @Entity
-
 @Data
 @NoArgsConstructor
-public class Contact {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Contact extends BaseEntity {
+
     private String firstname;
     private String lastname;
     private String email;
-    private String phonenumber;
+    private String phoneNumber;
     private String address;
 
-    public Contact(String firstname, String lastname, String email, String phonenumber, String address) {
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image avatar;
+
+    public Contact(String firstname, String lastname, String email, String phonenumber, String address, Image avatar) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.phonenumber = phonenumber;
+        this.phoneNumber = phonenumber;
         this.address = address;
+        this.avatar=avatar;
     }
 }

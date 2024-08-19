@@ -6,14 +6,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mk.iwec.schedulerapplication.infrastructure.pojo.BaseEntity;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Attendance {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Attendance extends BaseEntity {
+
     private Boolean present;
 
     @ManyToOne
